@@ -12,6 +12,9 @@ public class PlayerBehavior : MonoBehaviour
 
     private const float mouseSensitivity = 500f;
 
+    private GameObject heldObject;
+    private const float THROW_FORCE = 1000f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,19 +39,6 @@ public class PlayerBehavior : MonoBehaviour
             UnityEngine.Debug.Log("objectsInRange is null.");
             return;
         }
-        foreach (GameObject obj in objectsInRange)
-        {
-            UnityEngine.Debug.Log("Kicking object: " + obj.name);
-            // apply force to object in direction between player and object
-            Vector3 direction = obj.transform.position - transform.position;
-            direction.Normalize();
-            Rigidbody targetRb = obj.GetComponent<Rigidbody>();
-            if (targetRb != null)
-            {
-                targetRb.AddForce(direction * 1000);
-            }
-        }
-
     }
 
     void FixedUpdate()
@@ -78,12 +68,54 @@ public class PlayerBehavior : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            kick();
+            UnityEngine.Debug.Log("Space key was pressed. Held object is: " + heldObject);
+            handleInteractEvent();
         }
         rotatePlayer();
-
-
     }
+
+    void handleInteractEvent()
+    {
+        if (heldObject)
+        {
+            // throw the object. make it active. spawn it in front of the player. and apply force in direction of player facing direction
+            heldObject.SetActive(true);
+            heldObject.transform.position = transform.position + transform.forward * 2;
+            Rigidbody targetRb = heldObject.GetComponent<Rigidbody>();
+            if (targetRb != null)
+            {
+                targetRb.AddForce(transform.forward * THROW_FORCE);
+            }
+            heldObject = null;
+        }
+        else
+        {
+            List<GameObject> objectsInRange = interactHitboxVolume.GetComponent<PlayerRangeTrigger>().getObjectsInRange();
+            if (objectsInRange == null)
+            {
+                UnityEngine.Debug.Log("objectsInRange is null.");
+                return;
+            }
+            foreach (GameObject obj in objectsInRange)
+            {
+                if (obj.tag == "Throwable")
+                {
+                    heldObject = obj;
+                    obj.SetActive(false);
+                    return;
+                }
+            }
+            // wonderfully efficient code. i know. 
+            foreach (GameObject obj in objectsInRange)
+            {
+                if (obj.tag == "Dad")
+                {
+                    obj.GetComponent<DadScript>().getKicked();
+                }
+            }
+        }
+    }
+
     void rotatePlayer()
     {
         //Get mouse movement

@@ -24,7 +24,7 @@ public class PlayerRangeTrigger : MonoBehaviour
     // on entering the trigger, add the enemy to the list
     private void OnTriggerEnter(Collider other)
     {
-        UnityEngine.Debug.Log("Adding object: " + other.gameObject.name);
+        //UnityEngine.Debug.Log("Adding object: " + other.gameObject.name);
         objectsInRange.Add(other.gameObject);
     }
 
