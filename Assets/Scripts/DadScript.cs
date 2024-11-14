@@ -5,7 +5,7 @@ using UnityEngine;
 public class DadScript : MonoBehaviour
 {
     private int anger = 0;
-    [Serialize] private GameObject head;
+    [SerializeField] private GameObject head;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +23,7 @@ public class DadScript : MonoBehaviour
         if(collision.gameObject.tag != "Player")
         {
             anger += 10;
-            head.transform.localScale = anger * 100;
+            head.transform.localScale =+ anger;
         }
     }
 }
