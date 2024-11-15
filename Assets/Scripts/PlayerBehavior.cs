@@ -86,6 +86,7 @@ public class PlayerBehavior : MonoBehaviour
             {
                 targetRb.AddForce(transform.forward * THROW_FORCE);
             }
+            interactHitboxVolume.GetComponent<PlayerRangeTrigger>().removeObjectIfExists(heldObject);
             heldObject = null;
         }
         else
