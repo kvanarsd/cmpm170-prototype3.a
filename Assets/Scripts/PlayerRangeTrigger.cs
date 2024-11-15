@@ -21,18 +21,25 @@ public class PlayerRangeTrigger : MonoBehaviour
 
     }
 
-    // on entering the trigger, add the enemy to the list
+    public void removeObjectIfExists(GameObject obj)
+    {
+        // check if object exists in the list
+        if (objectsInRange.Contains(obj))
+        {
+            // remove object from the list
+            objectsInRange.Remove(obj);
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        //UnityEngine.Debug.Log("Adding object: " + other.gameObject.name);
         objectsInRange.Add(other.gameObject);
     }
 
-    // on exiting the trigger, remove the enemy from the list
     private void OnTriggerExit(Collider other)
     {
 
-        objectsInRange.Remove(other.gameObject);
+        removeObjectIfExists(other.gameObject);
 
     }
 
