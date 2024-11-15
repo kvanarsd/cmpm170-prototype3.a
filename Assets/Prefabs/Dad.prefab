@@ -1,5 +1,37 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2443435518622774031
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5252783528298213378}
+  m_Layer: 0
+  m_Name: Pivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5252783528298213378
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2443435518622774031}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.559, z: 0.08624016}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
+  m_Children:
+  - {fileID: 3894196215338261690}
+  m_Father: {fileID: 8853966001507799625}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7011771206960199437
 GameObject:
   m_ObjectHideFlags: 0
@@ -30,9 +62,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2657434489979870484}
-  - {fileID: 3894196215338261690}
+  - {fileID: 5252783528298213378}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8520935375364250069
 MonoBehaviour:
@@ -46,8 +78,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06dba02918f2a1541b05d9390f2b3105, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  head: {fileID: 4413851440164374016}
+  head: {fileID: 2443435518622774031}
   body: {fileID: 3434780017885661102}
+  throwablePrefab: {fileID: 0}
 --- !u!1001 &2552313846696147711
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -176,13 +209,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f69542c9c1babf244afc32c35e93f8e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dadParentObj: {fileID: 0}
 --- !u!1001 &3566938514330565457
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 8853966001507799625}
+    m_TransformParent: {fileID: 5252783528298213378}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: a84402963f34b094890f65988cf58580, type: 3}
       propertyPath: m_RootOrder
@@ -206,11 +240,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a84402963f34b094890f65988cf58580, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.822
+      value: 0.2629999
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a84402963f34b094890f65988cf58580, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.08624016
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a84402963f34b094890f65988cf58580, type: 3}
       propertyPath: m_LocalRotation.w
@@ -240,13 +274,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: a84402963f34b094890f65988cf58580, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a84402963f34b094890f65988cf58580, type: 3}
       propertyPath: m_Name
       value: dadgame170head
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: a84402963f34b094890f65988cf58580, type: 3}
       propertyPath: m_TagString
-      value: Dad
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -302,3 +340,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3a872863e60c5040b4316c7f180d4ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dadParentObj: {fileID: 0}

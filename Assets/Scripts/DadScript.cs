@@ -7,13 +7,17 @@ using UnityEngine;
 public class DadScript : MonoBehaviour
 {
     private int anger = 0;
-    private Vector3 scale = new Vector3(0.02f, 0.02f, 0.02f);
+    private Vector3 scale = new Vector3(0.002f, 0.002f, 0.002f);
     [SerializeField] private GameObject head;
     [SerializeField] private GameObject body;
 
     [SerializeField] private GameObject throwablePrefab;
 
     private const float INVULN_TIME = 0.7f;
+
+    //sounds
+    [SerializeField] private AudioClip[] audios;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -60,18 +64,18 @@ public class DadScript : MonoBehaviour
     {
         anger += increment;
         // make dad red
-        head.GetComponent<Renderer>().material.color = Color.red;
+        head.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.red;
         body.GetComponent<Renderer>().material.color = Color.red;
         // make dad invincible
-        head.GetComponent<Collider>().enabled = false;
+        //head.GetComponent<Collider>().enabled = false;
         body.GetComponent<Collider>().enabled = false;
         // trigger headGrow coroutine
         StartCoroutine(headGrow(increment));
         yield return new WaitForSeconds(INVULN_TIME);
         // make dad normal
-        head.GetComponent<Renderer>().material.color = Color.white;
+        head.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.white;
         body.GetComponent<Renderer>().material.color = Color.white;
-        head.GetComponent<Collider>().enabled = true;
+        //head.GetComponent<Collider>().enabled = true;
         body.GetComponent<Collider>().enabled = true;
     }
 
