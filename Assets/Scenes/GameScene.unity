@@ -357,9 +357,29 @@ PrefabInstance:
       value: Dad
       objectReference: {fileID: 0}
     - target: {fileID: 8520935375364250069, guid: d34f1d1b34efb5d49ac8781f9a0b8435, type: 3}
+      propertyPath: balloonPop
+      value: 
+      objectReference: {fileID: 8300000, guid: c19a8ea858cb19947bfcca536e3b9d6e, type: 3}
+    - target: {fileID: 8520935375364250069, guid: d34f1d1b34efb5d49ac8781f9a0b8435, type: 3}
+      propertyPath: manScreaming
+      value: 
+      objectReference: {fileID: 8300000, guid: ae215b6ca6bc60643af2294c62efa4fd, type: 3}
+    - target: {fileID: 8520935375364250069, guid: d34f1d1b34efb5d49ac8781f9a0b8435, type: 3}
+      propertyPath: oldManGrumbling
+      value: 
+      objectReference: {fileID: 8300000, guid: 7f1a42c9bae16f345b880f91331003bb, type: 3}
+    - target: {fileID: 8520935375364250069, guid: d34f1d1b34efb5d49ac8781f9a0b8435, type: 3}
       propertyPath: throwablePrefab
       value: 
       objectReference: {fileID: 6555157192580838732, guid: 3776a2cd8cc2f93499adcc8ab9616be3, type: 3}
+    - target: {fileID: 8520935375364250069, guid: d34f1d1b34efb5d49ac8781f9a0b8435, type: 3}
+      propertyPath: audios.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8520935375364250069, guid: d34f1d1b34efb5d49ac8781f9a0b8435, type: 3}
+      propertyPath: audios.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: a2f84f23af5a992499a0f0fc899bcb45, type: 3}
     - target: {fileID: 8853966001507799625, guid: d34f1d1b34efb5d49ac8781f9a0b8435, type: 3}
       propertyPath: m_RootOrder
       value: 1

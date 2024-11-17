@@ -19,6 +19,12 @@ public class DadScript : MonoBehaviour
 
     //sounds
     [SerializeField] private AudioClip[] audios;
+
+    [SerializeField] private AudioClip balloonPop;
+    [SerializeField] private AudioClip manScreaming;
+    [SerializeField] private AudioClip oldManGrumbling;
+
+    private bool endSequenceActivated = false;
     
     // Start is called before the first frame update
     void Start()
@@ -29,7 +35,15 @@ public class DadScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (anger >= 10)
+        {
+            if (!endSequenceActivated)
+            {
+                endSequenceActivated = true;
+                isInvuln = true;
+                StartCoroutine(endSequence());
+            }
+        }
     }
 
     // make a static instance singleton
@@ -62,6 +76,8 @@ public class DadScript : MonoBehaviour
     // Triggered by player kicking dad.
     public void getKicked()
     {
+        if (endSequenceActivated)
+            return;
         if (isInvuln)
             return;
         // play the audios[0] sound
@@ -72,6 +88,8 @@ public class DadScript : MonoBehaviour
     // triggered with OnCollisionEnter on DadHead
     public void headHitByThrowable(GameObject obj)
     {
+        if (endSequenceActivated)
+            return;
         if (isInvuln)
             return;
         UnityEngine.Debug.Log("head hit by " + obj.name + " " + obj.tag);
@@ -83,6 +101,8 @@ public class DadScript : MonoBehaviour
     // triggered with OnCollisionEnter on DadBody
     public void bodyHitByThrowable(GameObject obj)
     {
+        if (endSequenceActivated)
+            return;
         if (isInvuln)
             return;
         UnityEngine.Debug.Log("body hit by " + obj.name + " " + obj.tag);
@@ -150,5 +170,25 @@ public class DadScript : MonoBehaviour
         throwable.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
 
         throwable.transform.position = spawnLocation;
+    }
+
+    IEnumerator endSequence()
+    {
+        // play oldManGrumbling sound
+        AudioSource.PlayClipAtPoint(oldManGrumbling, transform.position);
+        // make dad's head grow
+        for (int i = 0; i < 930; i++)
+        {
+
+            head.transform.localScale = new Vector3(head.transform.localScale.x + scale.x/5.0f,
+                                                        head.transform.localScale.y + scale.y/5.0f,
+                                                        head.transform.localScale.z + scale.z/5.0f);
+            yield return new WaitForSeconds(INVULN_TIME / 100.0f);
+        }
+        // play baloonPop sound
+        AudioSource.PlayClipAtPoint(balloonPop, transform.position);
+        // hide dad head and bod
+        head.SetActive(false);
+        body.SetActive(false);
     }
 }
