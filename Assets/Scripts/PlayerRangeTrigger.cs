@@ -28,12 +28,23 @@ public class PlayerRangeTrigger : MonoBehaviour
         {
             // remove object from the list
             objectsInRange.Remove(obj);
+            obj.GetComponent<Renderer>().material.color = Color.white;
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         objectsInRange.Add(other.gameObject);
+        turnBlueIfTagThrowable(other.gameObject);
+    }
+
+    private void turnBlueIfTagThrowable(GameObject obj)
+    {
+        if (obj.tag == "Throwable")
+        {
+            UnityEngine.Debug.Log("throwable obj in range");
+            obj.GetComponent<Renderer>().material.color = Color.blue;
+        }
     }
 
     private void OnTriggerExit(Collider other)

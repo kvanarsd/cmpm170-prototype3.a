@@ -15,16 +15,49 @@ public class PlayerBehavior : MonoBehaviour
     private GameObject heldObject;
     private const float THROW_FORCE = 1000f;
 
+    private bool isSpacePressed = false;
+    private float forwardSpeed = 0.0f;
+    private float rightSpeed = 0.0f;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        // lock mouse cursor to screen center
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        forwardSpeed = 0.0f;
+        rightSpeed = 0.0f;
+        if (Input.GetKey(KeyCode.W))
+        {
+            forwardSpeed++;
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            rightSpeed--;
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            forwardSpeed--;
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            rightSpeed++;
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            isSpacePressed = true;
+        }
+        Vector3 direction = (transform.forward * forwardSpeed + transform.right * rightSpeed);
+        direction.y = 0;
+        direction.Normalize();
+        moveInDirection(direction);
 
+        rotatePlayer();
     }
 
     void moveInDirection(Vector3 direction)
@@ -43,35 +76,11 @@ public class PlayerBehavior : MonoBehaviour
 
     void FixedUpdate()
     {
-        float forwardSpeed = 0.0f;
-        float rightSpeed = 0.0f;
-        if (Input.GetKey(KeyCode.W))
+        if (isSpacePressed)
         {
-            forwardSpeed++;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            rightSpeed--;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            forwardSpeed--;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            rightSpeed++;
-        }
-        Vector3 direction = (transform.forward * forwardSpeed + transform.right * rightSpeed);
-        direction.y = 0;
-        direction.Normalize();
-        moveInDirection(direction);
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            UnityEngine.Debug.Log("Space key was pressed. Held object is: " + heldObject);
             handleInteractEvent();
+            isSpacePressed = false;
         }
-        rotatePlayer();
     }
 
     void handleInteractEvent()

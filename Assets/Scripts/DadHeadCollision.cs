@@ -22,8 +22,7 @@ public class DadHeadCollision : MonoBehaviour
         if (collision.gameObject.tag == "Throwable")
         {
             UnityEngine.Debug.Log("Dad head COLLISION by throwable");
-            dadParentObj.GetComponent<DadScript>().headHitByThrowable();
-            destroyObjectAfterDelay(collision.gameObject);
+            dadParentObj.GetComponent<DadScript>().headHitByThrowable(collision.gameObject);
         }
     }
 

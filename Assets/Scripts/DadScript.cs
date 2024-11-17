@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -14,6 +15,7 @@ public class DadScript : MonoBehaviour
     [SerializeField] private GameObject throwablePrefab;
 
     private const float INVULN_TIME = 0.7f;
+    private bool isInvuln = false;
 
     //sounds
     [SerializeField] private AudioClip[] audios;
@@ -41,23 +43,29 @@ public class DadScript : MonoBehaviour
     // Triggered by player kicking dad.
     public void getKicked()
     {
+        if (isInvuln)
+            return;
         StartCoroutine(angerFlash(1));
     }
 
     // triggered with OnCollisionEnter on DadHead
-    public void headHitByThrowable()
+    public void headHitByThrowable(GameObject obj)
     {
-        // trigger angerFlash coroutine
-        StartCoroutine(angerFlash(3));
-        StartCoroutine(spawnThrowableCoroutine(5));
+        if (isInvuln)
+            return;
+        UnityEngine.Debug.Log("head hit by " + obj.name + " " + obj.tag);
+        StartCoroutine(angerFlash(2));
+        StartCoroutine(replaceThrowableCoroutine(1, obj));
     }
 
     // triggered with OnCollisionEnter on DadBody
-    public void bodyHitByThrowable()
+    public void bodyHitByThrowable(GameObject obj)
     {
-        // trigger angerFlash coroutine
+        if (isInvuln)
+            return;
+        UnityEngine.Debug.Log("body hit by " + obj.name + " " + obj.tag);
         StartCoroutine(angerFlash(1));
-        StartCoroutine(spawnThrowableCoroutine(5));
+        StartCoroutine(replaceThrowableCoroutine(1, obj));
     }
 
     IEnumerator angerFlash(int increment)
@@ -67,16 +75,15 @@ public class DadScript : MonoBehaviour
         head.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.red;
         body.GetComponent<Renderer>().material.color = Color.red;
         // make dad invincible
-        //head.GetComponent<Collider>().enabled = false;
-        body.GetComponent<Collider>().enabled = false;
+        isInvuln = true;
         // trigger headGrow coroutine
         StartCoroutine(headGrow(increment));
         yield return new WaitForSeconds(INVULN_TIME);
         // make dad normal
         head.transform.GetChild(0).GetComponent<Renderer>().material.color = Color.white;
         body.GetComponent<Renderer>().material.color = Color.white;
-        //head.GetComponent<Collider>().enabled = true;
-        body.GetComponent<Collider>().enabled = true;
+
+        isInvuln = false;
     }
 
     IEnumerator headGrow(int increment)
@@ -99,7 +106,26 @@ public class DadScript : MonoBehaviour
     IEnumerator spawnThrowableCoroutine(float delay)
     {
         yield return new WaitForSeconds(delay);
-        Vector3 spawnLocation = new Vector3(Random.Range(-3.0f, 3.0f), 3.0f, Random.Range(-3.0f, 3.0f));
+        float x = UnityEngine.Random.Range(-2.0f, 2.0f);
+        if (x < 0) x--; else x++;
+        float z = UnityEngine.Random.Range(-2.0f, 2.0f);
+        if (z < 0) z--; else z++;
+        Vector3 spawnLocation = new Vector3(x, 1.0f, z);
         Instantiate(throwablePrefab, spawnLocation, Quaternion.identity);
+    }
+    IEnumerator replaceThrowableCoroutine(float delay, GameObject throwable)
+    {
+        yield return new WaitForSeconds(delay);
+        float x = UnityEngine.Random.Range(-2.0f, 2.0f);
+        if (x < 0) x--; else x++;
+        float z = UnityEngine.Random.Range(-2.0f, 2.0f);
+        if (z < 0) z--; else z++;
+        Vector3 spawnLocation = new Vector3(x, 1.0f, z);
+        // set throwable velocity to 0 and place at spawnLocation
+        throwable.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        // stop all rotations
+        throwable.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+
+        throwable.transform.position = spawnLocation;
     }
 }
