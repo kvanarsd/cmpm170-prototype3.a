@@ -32,6 +32,25 @@ public class DadScript : MonoBehaviour
         
     }
 
+    // make a static instance singleton
+    public static DadScript instance;
+    public static DadScript Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = GameObject.FindObjectOfType<DadScript>();
+            }
+            return instance;
+        }
+    }
+
+    void Awake()
+    {
+        instance = this;
+    }
+
     void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag != "Player")
@@ -45,6 +64,8 @@ public class DadScript : MonoBehaviour
     {
         if (isInvuln)
             return;
+        // play the audios[0] sound
+        AudioSource.PlayClipAtPoint(audios[0], transform.position);
         StartCoroutine(angerFlash(1));
     }
 
@@ -54,6 +75,7 @@ public class DadScript : MonoBehaviour
         if (isInvuln)
             return;
         UnityEngine.Debug.Log("head hit by " + obj.name + " " + obj.tag);
+        AudioSource.PlayClipAtPoint(audios[0], transform.position);
         StartCoroutine(angerFlash(2));
         StartCoroutine(replaceThrowableCoroutine(1, obj));
     }
@@ -64,6 +86,7 @@ public class DadScript : MonoBehaviour
         if (isInvuln)
             return;
         UnityEngine.Debug.Log("body hit by " + obj.name + " " + obj.tag);
+        AudioSource.PlayClipAtPoint(audios[0], transform.position);
         StartCoroutine(angerFlash(1));
         StartCoroutine(replaceThrowableCoroutine(1, obj));
     }

@@ -120,7 +120,7 @@ public class PlayerBehavior : MonoBehaviour
             {
                 if (obj.tag == "Dad")
                 {
-                    obj.GetComponent<DadScript>().getKicked();
+                    DadScript.instance.getKicked();
                 }
             }
         }
